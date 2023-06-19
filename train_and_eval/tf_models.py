@@ -245,7 +245,7 @@ class BaseTemporalModel(object):
         if self.is_training:
             # For each loss term, create a tensorboard plot.
             for loss_name, loss_op in self.ops_loss.items():
-                tf.summary.scalar(loss_name, loss_op, collections=[self.mode + '_summary_plot', self.mode + '_loss'])
+                tf.compat.v1.summary.scalar(loss_name, loss_op, collections=[self.mode + '_summary_plot', self.mode + '_loss'])
 
         else:
             # Validation: first accumulate losses and then plot.
@@ -261,19 +261,19 @@ class BaseTemporalModel(object):
             for loss_name, _ in self.ops_loss.items():
                 self.container_loss[loss_name] = 0
                 self.container_loss_placeholders[loss_name] = tf.placeholder(tf.float32, shape=[])
-                tf.summary.scalar(loss_name, self.container_loss_placeholders[loss_name],
+                tf.compat.v1.summary.scalar(loss_name, self.container_loss_placeholders[loss_name],
                                   collections=[self.mode + '_summary_plot', self.mode + '_loss'])
                 self.container_validation_feed_dict[self.container_loss_placeholders[loss_name]] = 0.0
 
         for summary_name, scalar_summary_op in self.ops_scalar_summary.items():
-            tf.summary.scalar(summary_name, scalar_summary_op,
+            tf.compat.v1.summary.scalar(summary_name, scalar_summary_op,
                               collections=[self.mode + '_summary_plot', self.mode + '_scalar_summary'])
 
     def finalise_graph(self):
         """
         Finalises graph building. It is useful if child classes must create some ops first.
         """
-        self.loss_summary = tf.summary.merge_all(self.mode + '_summary_plot')
+        self.loss_summary = tf.compat.v1.summary.merge_all(self.mode + '_summary_plot')
         if self.is_training:
             self.register_run_ops('summary', self.loss_summary)
 

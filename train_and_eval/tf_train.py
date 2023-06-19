@@ -67,12 +67,12 @@ class TrainingEngine(object):
         self.global_step = tf.Variable(1, trainable=False, name='global_step')
 
         if config.get('learning_rate_type') == 'exponential':
-            self.learning_rate = tf.train.exponential_decay(config.get('learning_rate'),
+            self.learning_rate = tf.compat.v1.train.exponential_decay(config.get('learning_rate'),
                                                             global_step=self.global_step,
                                                             decay_steps=config.get('learning_rate_decay_steps'),
                                                             decay_rate=config.get('learning_rate_decay_rate'),
                                                             staircase=False)
-            tf.summary.scalar('training/learning_rate', self.learning_rate, collections=["training_status"])
+            tf.compat.v1.summary.scalar('training/learning_rate', self.learning_rate, collections=["training_status"])
         elif config.get('learning_rate_type') == 'fixed':
             self.learning_rate = config.get('learning_rate')
         else:

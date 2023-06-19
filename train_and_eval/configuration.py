@@ -29,7 +29,7 @@ class Configuration(object):
     Configuration class to setup experiments.
     """
 
-    KNOWN_DATA_PATHS = {'local':  "./data",  # TODO enter path to data here
+    KNOWN_DATA_PATHS = {'local':  "../../data",  # TODO enter path to data here
                         'server': "./data"}  # TODO enter path to data here
 
     def __init__(self, **kwargs):
@@ -59,11 +59,13 @@ class Configuration(object):
         df = self.config['data_file']
 
         # for training
-        self.config['training_data'] = os.path.join(self.data_dir, "imu_{}_training.npz".format(df))
-        self.config['validation_data'] = os.path.join(self.data_dir, "imu_{}_validation.npz".format(df))
-
+        # self.config['training_data'] = os.path.join(self.data_dir, "imu_{}_training.npz".format(df))
+        # self.config['validation_data'] = os.path.join(self.data_dir, "imu_{}_validation.npz".format(df))
+        self.config['training_data'] = os.path.join(self.data_dir, "Synthetic_NPZ/training.npz".format(df))
+        self.config['validation_data'] = os.path.join(self.data_dir, "Synthetic_NPZ/validation.npz".format(df))
         # for evaluation
-        self.config['test_our_data'] = os.path.join(self.data_dir, "imu_own_test.npz")
+        # self.config['test_our_data'] = os.path.join(self.data_dir, "/DIP_IMU_and_Others/imu_own_test.npz")
+        self.config['test_our_data'] = "../../data/DIP_IMU_and_Others/imu_own_test.npz"
         self.config['test_total_capture'] = os.path.join(self.data_dir, "imu_v9_test_total_capture.npz")
         self.config['test_playground_data'] = os.path.join(self.data_dir, "imu_v9_test_playground.npz")
 

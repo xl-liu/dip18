@@ -58,7 +58,7 @@ class DataFeederTF(object):
                                                      dtypes=self.dataset.sample_tf_type,
                                                      names=self.dataset.sample_key)
         else:
-            self.input_queue = tf.FIFOQueue(queue_capacity,
+            self.input_queue = tf.queue.FIFOQueue(queue_capacity,
                                             dtypes=self.dataset.sample_tf_type,
                                             names=self.dataset.sample_key)
 

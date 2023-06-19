@@ -205,6 +205,6 @@ def logli_normal_isotropic(x, mu, sigma):
     """
     with tf.name_scope('logli_normal_isotropic'):
         var = tf.maximum(1e-6, tf.square(sigma))
-        result = -0.5 * (tf.log(2*np.pi*var) + tf.div(tf.square(x-mu), var))
+        result = -0.5 * (tf.log(2*np.pi*var) + tf.math.divide(tf.square(x-mu), var))
 
-        return tf.reduce_sum(result, -1, keep_dims=True)
+        return tf.reduce_sum(result, -1, keepdims=True)

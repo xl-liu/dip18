@@ -39,7 +39,7 @@ class BaseDataset(object):
     """
     def __init__(self, data_path):
         if isinstance(data_path, str):
-            self.data_dict = dict(np.load(data_path))
+            self.data_dict = dict(np.load(data_path, allow_pickle=True))
         elif isinstance(data_path, dict):
             self.data_dict = data_path
         else:

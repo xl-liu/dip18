@@ -89,9 +89,9 @@ def do_evaluation(config, datasets, len_past, len_future, save_predictions=False
         logger.print('\n------------------------------------------\n')
 
         # Clean slate.
-        tf.reset_default_graph()
+        tf.compat.v1.reset_default_graph()
 
-        with tf.Session() as sess:
+        with tf.compat.v1.Session() as sess:
             coord = tf.train.Coordinator()
             queue_threads = []
 
@@ -124,7 +124,7 @@ def do_evaluation(config, datasets, len_past, len_future, save_predictions=False
 
                 # Load variables
                 try:
-                    saver = tf.train.Saver()
+                    saver = tf.compat.v1.train.Saver()
                     # Restore variables.
                     if config.get('checkpoint_id') is None:
                         checkpoint_path = tf.train.latest_checkpoint(config.get("model_dir"))
@@ -144,7 +144,7 @@ def do_evaluation(config, datasets, len_past, len_future, save_predictions=False
             tf_data_fetch['inputs'] = data_placeholders[C.PL_INPUT]
 
             eval_data_feeder.init(sess, coord)
-            queue_threads.extend(tf.train.start_queue_runners(coord=coord, sess=sess))
+            queue_threads.extend(tf.compat.v1.train.start_queue_runners(coord=coord, sess=sess))
             queue_threads.append(eval_data_feeder.enqueue_threads)
 
             total_loss = 0.0
@@ -204,7 +204,7 @@ def do_evaluation(config, datasets, len_past, len_future, save_predictions=False
 
                         ja_diffs, euc_diffs = utils.compute_metrics(prediction=pred[j:j + 1],
                                                                     target=targ[j:j + 1],
-                                                                    compute_positional_error=False)
+                                                                    compute_positional_error=True)
                         stats.add(ja_diffs, euc_diffs)
 
                 total_loss = total_loss/float(n_data) if n_data > 0 else 0.0
